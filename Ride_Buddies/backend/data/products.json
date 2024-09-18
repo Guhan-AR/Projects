@@ -1,0 +1,16 @@
+{
+    "name":"Oppo F21",
+    "price":245,
+    "description":"Oppo is good brand",
+    "ratings":4.5,
+    "images":[
+        {
+            "Image":"product"
+        }
+    ],
+    "category":"Mobile Phones",
+    "seller":"Amazon",
+    "stock":5,
+    "numOfReviews":15,
+    "reviews":[{"name":"chumma","rating":"five","comment":"tharamaana product"}]
+}

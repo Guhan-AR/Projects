@@ -7,8 +7,8 @@
 
     "start": "nodemon backend/server.js",
     "dev":"set NODE_ENV = development && nodemon backend/server.js",
-    "prod":"set NODE_ENV = production && nodemon backend/server.js"
-
+    "prod":"set NODE_ENV = production && nodemon backend/server.js",
+    "seeder" : "node backend/utils/seeder.js"
   },
   "author": "Guhan A R",
   "license": "ISC",

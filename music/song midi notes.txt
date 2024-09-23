@@ -1,0 +1,141 @@
+notes_verse_1 = [
+    {'type': 'on', 'note': 60, 'velocity': 100, 'time': 0},  # C4 (Rhythm)
+    {'type': 'off', 'note': 60, 'time': 500},
+    {'type': 'on', 'note': 62, 'velocity': 100, 'time': 0},  # D4
+    {'type': 'off', 'note': 62, 'time': 500},
+    {'type': 'on', 'note': 64, 'velocity': 100, 'time': 0},  # E4
+    {'type': 'off', 'note': 64, 'time': 500},
+    {'type': 'on', 'note': 65, 'velocity': 100, 'time': 0},  # F4
+    {'type': 'off', 'note': 65, 'time': 500},
+    {'type': 'on', 'note': 67, 'velocity': 100, 'time': 0},  # G4
+    {'type': 'off', 'note': 67, 'time': 500},
+    {'type': 'on', 'note': 69, 'velocity': 100, 'time': 0},  # A4
+    {'type': 'off', 'note': 69, 'time': 500}
+    # Repeat melody for second half of verse...
+]
+notes_chorus = [
+    {'type': 'on', 'note': 67, 'velocity': 100, 'time': 0},  # G4
+    {'type': 'off', 'note': 67, 'time': 500},
+    {'type': 'on', 'note': 69, 'velocity': 100, 'time': 0},  # A4
+    {'type': 'off', 'note': 69, 'time': 500},
+    {'type': 'on', 'note': 71, 'velocity': 100, 'time': 0},  # B4
+    {'type': 'off', 'note': 71, 'time': 500},
+    {'type': 'on', 'note': 72, 'velocity': 100, 'time': 0},  # C5
+    {'type': 'off', 'note': 72, 'time': 1000},
+    # Repeat chorus melody...
+]
+notes_bridge = [
+    {'type': 'on', 'note': 60, 'velocity': 100, 'time': 0},  # C4
+    {'type': 'off', 'note': 60, 'time': 1000},
+    {'type': 'on', 'note': 62, 'velocity': 100, 'time': 0},  # D4
+    {'type': 'off', 'note': 62, 'time': 1000},
+    {'type': 'on', 'note': 64, 'velocity': 100, 'time': 0},  # E4
+    {'type': 'off', 'note': 64, 'time': 1000},
+    # Slower melody that builds back into the final chorus
+]
+
+Verse 1: I’m the rhythm to your heartbeat, feel the sound,
+Every step that I take, you’re the ground.
+I’m the breeze when the summer feels too hot,//
+In the silence of the night, you’re the thought.//
+
+or
+
+I’m the spark in your eyes when we first meet,
+Every step that I take, you’re the beat.
+I’m the warmth when the world feels too cold,
+In the quiet of the night, you're the story untold.
+
+Chorus:
+Feel the waves crashing in my soul,
+You’re the piece that makes me whole.//
+Every glance, it’s like we’re meant to be,//
+You’re the fire that sets me free.//
+
+or
+
+Feel the tides moving deep inside,
+You’re the piece that fits my stride.
+Every glance says we’re bound by fate,
+You’re the flame that makes me great
+
+Verse 2:
+Like the rain, I’m falling for your skies,//
+In your eyes, I see what never dies.//
+Every word I speak, it’s all for you,
+In this world of mine, you’re the truth.//
+
+or
+
+Like the rain, I fall where your heart lies,
+In your eyes, I see my forever rise.
+Every word I whisper is meant for you,
+In my world, you’re the light shining through
+
+or
+
+Like a gentle breeze on a starlit night,
+In your laughter, my heart takes flight.
+Every word I whisper, a promise made,
+In this moment, our love won’t fade
+
+Chorus:
+Feel the waves crashing in my soul,
+You’re the piece that makes me whole.//
+Every glance, it’s like we’re meant to be,//
+You’re the fire that sets me free.//
+
+Bridge:
+In the shadow, you’re the guiding light,
+No wrong turns, 'cause you make it right.
+You’re the echo in my quiet dreams,/or/You’re the dream I hold when the world sleeps,
+Without you, nothing’s as it seems.
+
+or
+
+In your eyes, I find my home,
+With you, I’ll never feel alone.
+You’re the heartbeat that sings in my chest,
+Together, our love will stand the test
+
+Chorus (Refrain):
+Feel the waves crashing in my soul,
+You’re the piece that makes me whole.//
+Every glance, it’s like we’re meant to be,//
+You’re the fire that sets me free.//
+
+3rd line of the verse 1 is not touching heart , 4th line of the verse 1 and 2nd line of chorus is very good but say in other way to feel more lovey mean,
+4th and 5th line does feel to me as lovely lines in terms of 'love in college',1st line of verse 1 feels the line is already in many songs so need a unique line on that place,
+2nd line of verse 2 i cant understand so need the lyric to be understandable meaning , 4th line is ok but need  a change ,in the 3rd line of Bridge not feel lovely
+
+
+
+I’m the spark in your eyes when we first meet,
+Every step that I take, you’re the beat.
+I’m the warmth when the world feels too cold,
+In the quiet of the night, you're the story untold.
+
+Feel the tides moving deep inside,
+You’re the piece that fits my stride.
+Every glance says we’re bound by fate,
+You’re the flame that makes me great
+
+Like a gentle breeze on a starlit night,
+In your laughter, my heart takes flight.
+Every word I whisper, a promise made,
+In this moment, our love won’t fade
+
+Feel the tides moving deep inside,
+You’re the piece that fits my stride.
+Every glance says we’re bound by fate,
+You’re the flame that makes me great
+
+In your eyes, I find my home,
+With you, I’ll never feel alone.
+You’re the heartbeat that sings in my chest,
+Together, our love will stand the test
+
+Feel the tides moving deep inside,
+You’re the piece that fits my stride.
+Every glance says we’re bound by fate,
+You’re the flame that makes me great

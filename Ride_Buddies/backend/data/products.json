@@ -1,16 +1,113 @@
-{
-    "name":"Oppo F21",
-    "price":245,
-    "description":"Oppo is good brand",
-    "ratings":4.5,
-    "images":[
+[
+    {
+      "name": "Oppo F21",
+      "price": 245,
+      "description": "Oppo is a good brand",
+      "ratings": 4.5,
+      "images": [
         {
-            "Image":"product"
+          "image": "product"
         }
-    ],
-    "category":"Mobile Phones",
-    "seller":"Amazon",
-    "stock":5,
-    "numOfReviews":15,
-    "reviews":[{"name":"chumma","rating":"five","comment":"tharamaana product"}]
-}
+      ],
+      "category": "mobile phones",
+      "seller": "amazon",
+      "stock": 5,
+      "numofreviews": 15,
+      "reviews": [
+        {
+          "name": "Chumma",
+          "rating": "five",
+          "comment": "Tharamaana product"
+        }
+      ]
+    },
+    {
+      "name": "Oppo Reno 10",
+      "price": 250,
+      "description": "Oppo is a good brand",
+      "ratings": 4.8,
+      "images": [
+        {
+          "image": "products"
+        }
+      ],
+      "category": "mobile phones",
+      "seller": "amazon",
+      "stock": 10,
+      "numofreviews": 105,
+      "reviews": [
+        {
+          "name": "Chummad",
+          "rating": "four",
+          "comment": "Tharamaana products"
+        }
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21",
+      "price": 799,
+      "description": "Samsung's flagship model",
+      "ratings": 4.7,
+      "images": [
+        {
+          "image": "productr"
+        }
+      ],
+      "category": "mobile phones",
+      "seller": "amazon",
+      "stock": 20,
+      "numofreviews": 200,
+      "reviews": [
+        {
+          "name": "Alex",
+          "rating": "five",
+          "comment": "Excellent phone with great features"
+        }
+      ]
+    },
+    {
+      "name": "Google Pixel 9",
+      "price": 799,
+      "description": "Google's latest flagship with AI features",
+      "ratings": 4.9,
+      "images": [
+        {
+          "image": "product"
+        }
+      ],
+      "category": "mobile phones",
+      "seller": "google store",
+      "stock": 15,
+      "numofreviews": 150,
+      "reviews": [
+        {
+          "name": "Jordan",
+          "rating": "five",
+          "comment": "Amazing camera and performance"
+        }
+      ]
+    },
+    {
+      "name": "OnePlus 12",
+      "price": 699,
+      "description": "Best value flagship",
+      "ratings": 4.6,
+      "images": [
+        {
+          "image": "product"
+        }
+      ],
+      "category": "mobile phones",
+      "seller": "amazon",
+      "stock": 25,
+      "numofreviews": 180,
+      "reviews": [
+        {
+          "name": "Taylor",
+          "rating": "five",
+          "comment": "Great performance for the price"
+        }
+      ]
+    }
+  ]
+  

@@ -47,7 +47,7 @@ const productSchema = new mongoose.Schema({
             ],
             message: "Please select correct category"
 
-        },
+        }},
         seller: {
             type: String,
             required: [true, "Please entre product seller name"]
@@ -81,7 +81,6 @@ const productSchema = new mongoose.Schema({
             default :  Date.now()
         }
     }
-}
 )
 
 let schema = mongoose.model('Product',productSchema)

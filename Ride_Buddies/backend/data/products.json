@@ -1,113 +1,112 @@
 [
-    {
-      "name": "Oppo F21",
-      "price": 245,
-      "description": "Oppo is a good brand",
-      "ratings": 4.5,
-      "images": [
-        {
-          "image": "product"
-        }
-      ],
-      "category": "mobile phones",
-      "seller": "amazon",
-      "stock": 5,
-      "numofreviews": 15,
-      "reviews": [
-        {
-          "name": "Chumma",
-          "rating": "five",
-          "comment": "Tharamaana product"
-        }
-      ]
-    },
-    {
-      "name": "Oppo Reno 10",
-      "price": 250,
-      "description": "Oppo is a good brand",
+  {
+      "name": "Samsung Galaxy S22",
+      "price": 999,
+      "description": "Samsung's flagship smartphone with excellent camera features.",
       "ratings": 4.8,
       "images": [
-        {
-          "image": "products"
-        }
+          {
+              "image": "samsung_galaxy_s22_image_url"
+          }
       ],
-      "category": "mobile phones",
-      "seller": "amazon",
+      "category": "Mobile Phones",
+      "seller": "flipkart",
       "stock": 10,
-      "numofreviews": 105,
+      "numofreviews": 120,
       "reviews": [
-        {
-          "name": "Chummad",
-          "rating": "four",
-          "comment": "Tharamaana products"
-        }
+          {
+              "name": "Raj",
+              "rating": 5,
+              "comment": "Excellent phone with great battery life."
+          }
       ]
-    },
-    {
-      "name": "Samsung Galaxy S21",
-      "price": 799,
-      "description": "Samsung's flagship model",
-      "ratings": 4.7,
-      "images": [
-        {
-          "image": "productr"
-        }
-      ],
-      "category": "mobile phones",
-      "seller": "amazon",
-      "stock": 20,
-      "numofreviews": 200,
-      "reviews": [
-        {
-          "name": "Alex",
-          "rating": "five",
-          "comment": "Excellent phone with great features"
-        }
-      ]
-    },
-    {
-      "name": "Google Pixel 9",
-      "price": 799,
-      "description": "Google's latest flagship with AI features",
+  },
+  {
+      "name": "Apple MacBook Pro 16",
+      "price": 2499,
+      "description": "Apple's latest M1-powered MacBook Pro with advanced features.",
       "ratings": 4.9,
       "images": [
-        {
-          "image": "product"
-        }
+          {
+              "image": "macbook_pro_16_image_url"
+          }
       ],
-      "category": "mobile phones",
-      "seller": "google store",
+      "category": "Laptops",
+      "seller": "apple_store",
       "stock": 15,
-      "numofreviews": 150,
+      "numofreviews": 250,
       "reviews": [
-        {
-          "name": "Jordan",
-          "rating": "five",
-          "comment": "Amazing camera and performance"
-        }
+          {
+              "name": "Maya",
+              "rating": 5,
+              "comment": "Incredible performance and battery life."
+          }
       ]
-    },
-    {
-      "name": "OnePlus 12",
-      "price": 699,
-      "description": "Best value flagship",
+  },
+  {
+      "name": "Sony WH-1000XM5",
+      "price": 350,
+      "description": "Sony's industry-leading noise-canceling headphones.",
+      "ratings": 4.7,
+      "images": [
+          {
+              "image": "sony_wh1000xm5_image_url"
+          }
+      ],
+      "category": "Headphones",
+      "seller": "amazon",
+      "stock": 30,
+      "numofreviews": 540,
+      "reviews": [
+          {
+              "name": "Sita",
+              "rating": 5,
+              "comment": "Best noise-canceling headphones in the market."
+          }
+      ]
+  },
+  {
+      "name": "Dell XPS 13",
+      "price": 1300,
+      "description": "Dell's ultra-lightweight laptop with powerful performance.",
       "ratings": 4.6,
       "images": [
-        {
-          "image": "product"
-        }
+          {
+              "image": "dell_xps_13_image_url"
+          }
       ],
-      "category": "mobile phones",
-      "seller": "amazon",
-      "stock": 25,
-      "numofreviews": 180,
+      "category": "Laptops",
+      "seller": "dell_store",
+      "stock": 20,
+      "numofreviews": 340,
       "reviews": [
-        {
-          "name": "Taylor",
-          "rating": "five",
-          "comment": "Great performance for the price"
-        }
+          {
+              "name": "Alex",
+              "rating": 4,
+              "comment": "Great design, solid performance, but a bit pricey."
+          }
       ]
-    }
-  ]
-  
+  },
+  {
+      "name": "JBL Charge 5",
+      "price": 180,
+      "description": "Portable Bluetooth speaker with excellent sound and durability.",
+      "ratings": 4.5,
+      "images": [
+          {
+              "image": "jbl_charge_5_image_url"
+          }
+      ],
+      "category": "Accessories",
+      "seller": "bestbuy",
+      "stock": 50,
+      "numofreviews": 600,
+      "reviews": [
+          {
+              "name": "John",
+              "rating": 5,
+              "comment": "Amazing sound quality and battery life for outdoor use."
+          }
+      ]
+  }
+]

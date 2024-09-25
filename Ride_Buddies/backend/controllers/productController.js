@@ -1,80 +1,89 @@
 const Product = require('../models/productModel');
 const ErrorHandler = require('../utils/errorHandler');
-const catchAsyncError = require('../middlewares/catchAsyncError')
+const catchAsyncError = require('../middlewares/catchAsyncError');
+const mongoose = require('mongoose');
 
-//Get products - http://localhost:8000/api/v1/products
-exports.getProducts =async (req,res,next)=>{
+// Get all products - http://localhost:8000/api/v1/products
+exports.getProducts = catchAsyncError(async (req, res, next) => {
     const products = await Product.find();
-    // console.log("yes console is working");
     res.status(200).json({
-        success : true,
-        // message : "This route will show all the products in database"
-        count : products.length,
+        success: true,
+        count: products.length,
         products
-    })
-}
+    });
+});
 
-//create product - http://localhost:8000/api/v1/product/new
-exports.newProduct =catchAsyncError( async (req,res,next)=>{
+// Create a new product - http://localhost:8000/api/v1/product/new
+exports.newProduct = catchAsyncError(async (req, res, next) => {
     console.log("Creating product...");
     const product = await Product.create(req.body);
     console.log("Product created", product);
     res.status(201).json({
-        success:true,
+        success: true,
         product
     });
 });
 
-//Get Single Product - http://localhost:8000/api/v1/product/:id
-exports.getSingleProduct = async(req,res,next)=>{
-    const product =await Product.findById(req.params.id);
-
-    if (!product){
-        return next(new ErrorHandler('Product not found test',400));
-        // return res.status(404).json({
-        //     success: false,
-        //     message : "Product not found"
-        // });
+// Get a single product by ID - http://localhost:8000/api/v1/product/:id
+exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return next(new ErrorHandler('Invalid Product ID', 400));
     }
-    res.status(201).json({
+
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+        return next(new ErrorHandler('Product not found', 404));
+    }
+
+    res.status(200).json({
         success: true,
         product
-    })
-}
-
-//Update Product - http://localhost:8000/api/v1/product/:id
-exports.updateProduct = async (req,res,next)=>{
-    let product = await Product.findById(req.params.id)
-    if (!product){
-        return res.status(404).json({
-            success: false,
-            message : "Product not found"
-        })
-    }
-    product = await Product.findByIdAndUpdate(req.params.id,req.body,{
-        new : true,
-        runValidators : true
-
-    })
-    res.status(200).json({
-        success:true,
-        product
-    })
-}
-
-//Delete Product - http://localhost:8000/api/v1/product/:id
-exports.deleteProduct = async (req,res,next) => {
-    const product =await Product.findById(req.params.id);
-
-    if (!product){
-        return res.status(404).json({
-            success: false,
-            message : "Product not found"
-        });
-    }
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({
-        success:true,
-        message:"Product Deleted"
     });
-}
+});
+
+// Update product - http://localhost:8000/api/v1/product/:id
+exports.updateProduct = catchAsyncError(async (req, res, next) => {
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return next(new ErrorHandler('Invalid Product ID', 400));
+    }
+
+    let product = await Product.findById(req.params.id);
+
+    if (!product) {
+        return next(new ErrorHandler('Product not found', 404));
+    }
+
+    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    });
+
+    res.status(200).json({
+        success: true,
+        product
+    });
+});
+
+// Delete product - http://localhost:8000/api/v1/product/:id
+exports.deleteProduct = catchAsyncError(async (req, res, next) => {
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return next(new ErrorHandler('Invalid Product ID', 400));
+    }
+
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+        return next(new ErrorHandler('Product not found', 404));
+    }
+
+    await Product.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+        success: true,
+        message: "Product deleted successfully"
+    });
+});

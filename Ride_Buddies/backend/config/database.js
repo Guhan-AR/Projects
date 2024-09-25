@@ -6,9 +6,10 @@ const connectDatabase = ()=>{
         useUnifiedTopology:true
     }).then(con=>{
         console.log(`momgo db is connected to the host: ${con.connection.host}`)
-    }).catch((err)=>{
-        console.log(err);
     })
+    // .catch((err)=>{
+    //     console.log(err);
+    // })
 }
 
 module.exports = connectDatabase

@@ -23,6 +23,10 @@ module.exports = (err, req, res, next) => {
             error = new ErrorHandler(message.join(', '), 400);
         }
 
+        if(err.name == 'CastError'){
+            message = `Resource not found ${err.path}`;
+        }
+
         // Handling other possible errors here (e.g. CastError, Duplicate key, etc.)
 
         res.status(error.statusCode || 500).json({

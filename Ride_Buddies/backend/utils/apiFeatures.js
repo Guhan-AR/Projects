@@ -1,42 +1,52 @@
-class APIFeatures{
-    constructor(query,queryStr){
+class APIFeatures {
+    constructor(query, queryStr) {
         this.query = query;
         this.queryStr = queryStr;
     }
 
+    // 1. Keyword search
     search() {
-        // 1. Keyword search
-        let keyword = this.queryStr.keyword ? {
-            name: {
-                $regex: this.queryStr.keyword,
-                $options: 'i'
-            }
-        } : {};
+        const keyword = this.queryStr.keyword
+            ? {
+                  name: {
+                      $regex: this.queryStr.keyword,
+                      $options: 'i', // case-insensitive search
+                  },
+              }
+            : {};
+
+        this.query.find({ ...keyword });
+        return this;
+    }
+
+    // 2. Price and ratings filtering
+    filter() {
+        console.log("Original query string:", this.queryStr);  // Add this line to inspect the query string
     
-        // 2. Price and ratings filtering
-        let filters = {};
-    
-        if (this.queryStr.price) {
-            filters.price = {
-                ...(this.queryStr.price.gte && { $gte: this.queryStr.price.gte }),
-                ...(this.queryStr.price.lte && { $lte: this.queryStr.price.lte })
-            };
-        }
-    
-        if (this.queryStr.ratings) {
-            filters.ratings = { $gte: this.queryStr.ratings.gte };
-        }
-    
-        // Combine search and filters
-        this.query.find({ ...keyword, ...filters });
+        const queryStrCopy = { ...this.queryStr };
+  
+        //removing fields from query
+        const removeFields = ['keyword', 'limit', 'page'];
+        removeFields.forEach( field => delete queryStrCopy[field]);
         
+        let queryStr = JSON.stringify(queryStrCopy);
+        queryStr =  queryStr.replace(/\b(gt|gte|lt|lte)/g, match => `$${match}`)
+
+        this.query.find(JSON.parse(queryStr));
+        console.log("Filtered query string:", queryStr);  // Check if gte, lte are processed correctly
+
         return this;
     }
     
-    // filter(){
-    //     const queryStrCopy = {...this.queryStr};
-        
-    // }
+
+    // 3. Pagination
+    paginate(resultsPerPage) {
+        const currentPage = Number(this.queryStr.page) || 1;
+        const skip = resultsPerPage * (currentPage - 1);
+
+        this.query = this.query.limit(resultsPerPage).skip(skip);
+        return this;
+    }
 }
 
 module.exports = APIFeatures;

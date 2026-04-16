@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- ENUMS ---
+enum Role {
+  ADMIN
+  DOCTOR
+  NURSE
+  PHARMACIST
+  RECEPTIONIST
+}
+
+enum FlowStatus {
+  TRIAGE
+  CONSULTING
+  DIAGNOSTICS
+  TREATMENT
+  DISCHARGE
+}
+
+enum ItemCategory {
+  MEDICINE
+  SURGICAL
+  CONSUMABLE
+  EQUIPMENT
+}
+
+// --- STAFF & DEPARTMENTS ---
+model Department {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  
+  staff       Staff[]
+}
+
+model Staff {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  role         Role
+  departmentId Int?
+  department   Department? @relation(fields: [departmentId], references: [id])
+  phone        String?
+  shiftStart   String?   // e.g., "09:00"
+  shiftEnd     String?   // e.g., "17:00"
+  
+  // Relations
+  appointments ApptFlow[]
+}
+
+// --- PATIENT & FLOW ---
+model Patient {
+  id             Int      @id @default(autoincrement())
+  name           String
+  age            Int
+  gender         String
+  contact        String?
+  bloodGroup     String?
+  medicalHistory String?  // text area for prior conditions
+  createdAt      DateTime @default(now())
+
+  // Relations
+  visits         ApptFlow[]
+}
+
+model ApptFlow {
+  id          Int        @id @default(autoincrement())
+  patientId   Int
+  patient     Patient    @relation(fields: [patientId], references: [id])
+  doctorId    Int?
+  doctor      Staff?     @relation(fields: [doctorId], references: [id])
+  
+  status      FlowStatus @default(TRIAGE)
+  symptoms    String?
+  diagnosis   String?
+  notes       String?
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+// --- MEDICAL STOCK (PHARMACY/INVENTORY) ---
+model InventoryItem {
+  id             Int          @id @default(autoincrement())
+  name           String       @unique
+  sku            String       @unique
+  category       ItemCategory
+  quantity       Int          @default(0)
+  threshold      Int          @default(10) // Alert when below this
+  expirationDate DateTime?
+  supplier       String?
+  lastRestocked  DateTime     @default(now())
+}

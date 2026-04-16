@@ -1,0 +1,48 @@
+{
+  "name": "todo-desktop-app",
+  "version": "1.0.0",
+  "description": "A COMPLETE Windows desktop Todo application",
+  "author": "TodoApp",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "dist": "npm run build:frontend && electron-builder --win --config.win.target=portable",
+    "dist:installer": "npm run build:frontend && electron-builder --win --config.win.target=nsis",
+    "install:all": "npm install && cd frontend && npm install",
+    "rebuild": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "@libsql/sqlite3": "^0.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "electron": "^30.0.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.tododesktopapp.app",
+    "productName": "TodoApp",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "forceCodeSigning": false,
+    "portable": {
+      "artifactName": "TodoApp-Portable.exe"
+    },
+    "files": [
+      "electron/**/*",
+      "backend/**/*",
+      "frontend/dist/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "**/*.node"
+    ]
+  }
+}

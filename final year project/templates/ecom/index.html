@@ -1,0 +1,58 @@
+{% extends 'ecom/homebase.html' %}
+{% load static %}
+{% block content %}
+
+{% include "ecom/banner.html" %}
+
+<div class="container">
+  {% if products %}
+  <h3 class="text-center mt-4 mb-4">{{ word }}</h3>
+
+  <!-- Product Cards Start -->
+  <div class="product-grid-container">
+    {% for p in products %}
+    <div class="product-card">
+      <div class="product-img-wrapper">
+        <img src="{% static p.product_image.url %}" alt="{{ p.name }}">
+        <a href="{% url 'product-description' p.id %}" class="view-btn">View Details</a>
+      </div>
+
+      <div class="product-details">
+        <div>
+          <!-- Product Title -->
+          <div class="product-title">{{ p.name }}</div>
+        </div>
+
+        <div>
+          <!-- Price -->
+          <div class="product-price">
+            &#8377;{{ p.price }} <del>&#8377;{{ p.d_price }}</del>
+          </div>
+
+          <!-- Add to Cart -->
+          <a href="{% url 'add-to-cart' p.id %}" class="add-cart-btn">
+            <i class="fas fa-shopping-cart"></i> Add To Cart
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- Product Cards End -->
+  {% else %}
+  <div class="no-results" style="text-align:center; padding: 50px;">
+    <h3>No Search Results Found</h3>
+    <p>Try different search terms or browse our categories</p>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  {% if messages %}
+  {% for message in messages %}
+  alert('{{ message }}');
+  {% endfor %}
+  {% endif %}
+</script>
+
+{% endblock content %}

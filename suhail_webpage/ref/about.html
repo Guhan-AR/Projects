@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccuMark Services - Premium Business Solutions</title>
+    <link rel="icon" type="image/jpeg" href="./accumark logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Theme System -->
+    <link rel="stylesheet" href="./theme.css">
+    <script>
+      (function(){
+        var t = localStorage.getItem('accumark-theme');
+        if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
+      })();
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200 transition-all">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex flex-col items-center">
+                <img src="./logo_white_bg-removebg-preview.png" alt="AccuMark Logo" class="w-[120px]">
+                <p class="text-[9px] uppercase tracking-[0.1em] font-bold text-slate-500 mt-1 text-center">
+                    From statement calculation to sales conversion
+                </p>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                <a href="index.html" class="hover:text-brand-600 transition-colors">Home</a>
+                <a href="services.html" class="hover:text-brand-600 transition-colors">Services</a>
+                <a href="about.html" class="hover:text-brand-600 transition-colors">About Us</a>
+                <a href="contact.html" class="hover:text-brand-600 transition-colors">Contact</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <a href="contact.html"
+                    class="hidden md:inline-block bg-brand-900 text-white font-medium py-2 px-6 rounded-full hover:bg-brand-700 transition-all shadow-md hover:shadow-lg">
+                    Get Started
+                </a>
+                <!-- Theme Toggle Button -->
+                <button data-theme-toggle aria-label="Toggle dark/light theme" class="theme-toggle-btn">
+                    <svg class="icon-moon w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        style="color:#475569;position:absolute">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg class="icon-sun w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        style="color:#60a5fa;position:absolute">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Hamburger Button (mobile only) -->
+            <button id="menuBtn" class="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-slate-100 transition"
+                aria-label="Open menu">
+                <span class="block w-6 h-0.5 bg-slate-700 transition-all duration-300"></span>
+                <span class="block w-6 h-0.5 bg-slate-700 transition-all duration-300"></span>
+                <span class="block w-6 h-0.5 bg-slate-700 transition-all duration-300"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileDrawer"
+        class="fixed top-0 right-0 h-full w-72 bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+            <img src="./logo_white_bg-removebg-preview.png" alt="AccuMark Logo" class="w-[100px]">
+            <button id="closeBtn" class="p-2 rounded-lg hover:bg-slate-100 transition" aria-label="Close menu">
+                <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <nav class="flex flex-col px-6 py-8 gap-2 text-slate-700 font-semibold text-base flex-1">
+            <a href="index.html"
+                class="px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-600 transition-colors">Home</a>
+            <a href="services.html"
+                class="px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-600 transition-colors">Services</a>
+            <a href="about.html"
+                class="px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-600 transition-colors">About Us</a>
+            <a href="contact.html"
+                class="px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-600 transition-colors">Contact</a>
+        </nav>
+        <div class="px-6 pb-8">
+            <a href="contact.html"
+                class="block text-center bg-brand-900 text-white font-semibold py-3 px-6 rounded-full hover:bg-brand-700 transition-all shadow-md">
+                Get Started
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('drawerOverlay');
+
+        function openDrawer() {
+            overlay.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('translate-x-full');
+            });
+        }
+
+        function closeDrawer() {
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+
+        menuBtn.addEventListener('click', openDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+    </script>
+
+    <!-- About Section -->
+    <section id="about" class="bg-brand-50/50 py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- Company Intro Card -->
+            <div
+                class="bg-white p-10 md:p-14 rounded-[3rem] shadow-xl shadow-brand-100/30 mb-20 border border-brand-100/50 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-50 rounded-full opacity-50"></div>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="flex-1 text-center md:text-left">
+                        <h3
+                            class="text-2xl font-bold text-slate-900 mb-6 flex flex-row items-center justify-center md:justify-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                    </path>
+                                </svg>
+                            </div>
+                            About Us
+                        </h3>
+                        <p class="text-slate-600 text-lg md:text-xl leading-relaxed text-justify">
+                            AccuMark Services is a professional business solutions company that provides accounting
+                            services
+                            and digital marketing solutions for startups, small businesses, and growing enterprises. Our
+                            goal is to simplify financial management while helping businesses build a strong digital
+                            presence. We specialize in GST filing, bookkeeping, financial reporting, SEO, social media
+                            marketing, and business growth strategies. By combining financial expertise with modern
+                            digital
+                            marketing techniques, we help businesses operate efficiently and attract more customers. At
+                            AccuMark, we believe that every business deserves accurate financial clarity and effective
+                            marketing support. Our team works closely with clients to understand their business goals
+                            and
+                            provide customized solutions that improve performance and long-term growth.
+                        </p>
+                    </div>
+                    <div class="flex-1 w-full md:w-auto">
+                        <img src="./about_us_team.png" alt="AccuMark Team"
+                            class="rounded-[2rem] shadow-2xl w-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission & Vision Section -->
+            <div class="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto mb-20 text-center">
+                <div
+                    class="flex-1 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-lg border border-brand-100/50 hover:shadow-xl transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Our Vision</h3>
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
+                        Our vision is to become a trusted partner for businesses by delivering reliable accounting and
+                        innovative digital marketing solutions. We aim to help companies achieve financial clarity,
+                        strong online presence, and sustainable business growth. AccuMark strives to support businesses
+                        in building a stable and successful future.
+                    </p>
+                </div>
+
+                <div
+                    class="flex-1 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-lg border border-brand-100/50 hover:shadow-xl transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Our Mission</h3>
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
+                        Our mission is to simplify business operations through accurate accounting, GST compliance, and
+                        strategic digital marketing services. We focus on providing transparent financial management and
+                        effective marketing strategies for our clients. Our goal is to help businesses grow faster,
+                        smarter, and more efficiently.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet Our Founders -->
+    <section id="leadership" class="bg-slate-900 py-24 border-y border-slate-800 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-brand-600 rounded-full blur-[120px]">
+            </div>
+            <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-brand-900 rounded-full blur-[120px]">
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 relative z-10">
+                <!-- <h2 class="text-brand-600 font-semibold tracking-wider uppercase text-sm mb-2">Leadership</h2> -->
+                <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">Meet Our Founders</h3>
+                <p class="text-slate-300 max-w-2xl mx-auto text-lg">The visionary minds bridging the gap between sound
+                    financials and exponential growth.</p>
+            </div>
+
+            <div class="flex flex-col gap-12 max-w-5xl mx-auto">
+                <!-- Afsal Rahman -->
+                <div
+                    class="bg-white p-8 md:p-8 rounded-[3rem] shadow-xl shadow-brand-100/50 flex flex-col md:flex-row items-center gap-12 transition-transform hover:-translate-y-1 border border-transparent hover:border-brand-100">
+                    <!-- Left: Profile Info -->
+                    <div class="flex flex-col items-center text-center w-full md:w-2/5 flex-shrink-0">
+                        <div
+                            class="w-48 h-48 bg-gradient-to-br from-brand-400 to-indigo-600 rounded-full flex items-center justify-center text-white text-5xl shadow-lg font-bold mb-6 overflow-hidden">
+                            <img src="./founder.jpeg" alt="A" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-2xl text-slate-900 leading-tight">Mr.Afsal Rahman KA</h4>
+                        <p class="text-brand-600 font-semibold text-base mt-2">Founder & CEO</p>
+                    </div>
+
+                    <!-- Right: Bio Content -->
+                    <div class="w-full md:w-3/5 border-t md:border-t-0 md:border-l border-slate-100 pt-8 md:pt-0">
+                        <p class="text-slate-600 leading-relaxed text-lg text-justify">
+                            Mr.Afsal Rahman is the Founder of AccuMark Services and leads the company's financial
+                            management and accounting operations. With strong expertise in bookkeeping, GST compliance,
+                            tax filing, and financial reporting, he helps businesses maintain accurate financial records
+                            and stay compliant with regulations. His focus is on providing clear financial insights and
+                            reliable accounting solutions that support better decision-making and long-term business
+                            stability.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Suhail Ahmed TJ -->
+                <div
+                    class="bg-white p-8 md:p-8 rounded-[3rem] shadow-xl shadow-brand-100/50 flex flex-col md:flex-row items-center gap-12 transition-transform hover:-translate-y-1 border border-transparent hover:border-brand-100">
+                    <!-- Left: Profile Info -->
+                    <div class="flex flex-col items-center text-center w-full md:w-2/5 flex-shrink-0">
+                        <div
+                            class="w-48 h-48 bg-gradient-to-br from-purple-400 to-pink-600 rounded-full flex items-center justify-center text-white text-5xl shadow-lg font-bold mb-6 overflow-hidden">
+                            <img src="./suhail.jpeg" alt="Suhail Ahmed TJ" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-2xl text-slate-900 leading-tight">Mr.Suhail Ahmed TJ</h4>
+                        <p class="text-brand-600 font-semibold text-base mt-2">Co-Founder & CFO</p>
+                    </div>
+
+                    <!-- Right: Bio Content -->
+                    <div
+                        class="w-full md:w-3/5 border-t md:border-t-0 md:border-l border-slate-100 pt-8 md:pt-0">
+                        <p class="text-slate-600 leading-relaxed text-lg text-justify">
+                            Mr.Suhail Ahmed TJ is the Co-Founder of AccuMark Services and specializes in digital marketing
+                            and search engine optimization (SEO). He works on building effective online strategies that
+                            help businesses improve their digital presence, search visibility, and customer reach. His
+                            goal is to combine data-driven marketing strategies with business growth planning to help
+                            clients attract more customers and achieve measurable results online.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Azarudheen TA -->
+                <div
+                    class="bg-white p-8 md:p-8 rounded-[3rem] shadow-xl shadow-brand-100/50 flex flex-col md:flex-row items-center gap-12 transition-transform hover:-translate-y-1 border border-transparent hover:border-brand-100">
+                    <!-- Left: Profile Info -->
+                    <div class="flex flex-col items-center text-center w-full md:w-2/5 flex-shrink-0">
+                        <div
+                            class="w-48 h-48 bg-gradient-to-br from-teal-400 to-cyan-600 rounded-full flex items-center justify-center text-white text-5xl shadow-lg font-bold mb-6 overflow-hidden">
+                            <img src="./azar.jpeg" alt="Azarudheen TA" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-2xl text-slate-900 leading-tight">Mr.Azarudheen TA</h4>
+                        <p class="text-brand-600 font-semibold text-base mt-2">Operational Advisor</p>
+                    </div>
+
+                    <!-- Right: Bio Content -->
+                    <div
+                        class="w-full md:w-3/5 border-t md:border-t-0 md:border-l border-slate-100 pt-8 md:pt-0">
+                        <p class="text-slate-600 leading-relaxed text-lg text-justify">
+                            Mr. Azarudheen TA serves as the Operational Advisor, strengthening overall business
+                            performance by reviewing operations, identifying inefficiencies, and recommending practical
+                            improvements. Through detailed analysis of workflows, financial processes, and business
+                            systems, he ensures smooth and efficient organizational functioning.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Businesses Trust AccuMark -->
+    <section class="py-24 bg-white border-t border-slate-100">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-brand-600 font-semibold tracking-wider uppercase text-sm mb-3">Our Promise</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Why Businesses Trust AccuMark</h3>
+                <p class="text-slate-600 text-lg leading-relaxed max-w-3xl mx-auto text-justify">
+                    Businesses choose AccuMark Services because we combine financial expertise and digital marketing
+                    knowledge to deliver complete business solutions. Our approach focuses on accuracy, transparency,
+                    and measurable growth.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
+                <div
+                    class="flex items-start gap-4 bg-brand-50/50 border border-brand-100 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                    <div
+                        class="w-10 h-10 flex-shrink-0 bg-brand-600 rounded-xl flex items-center justify-center text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-1">Accurate Financial Management</h4>
+                        <p class="text-slate-500 text-sm leading-relaxed">Precise bookkeeping and GST compliance you can
+                            rely on.</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex items-start gap-4 bg-brand-50/50 border border-brand-100 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                    <div
+                        class="w-10 h-10 flex-shrink-0 bg-brand-600 rounded-xl flex items-center justify-center text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-1">Strategic Business Growth Support</h4>
+                        <p class="text-slate-500 text-sm leading-relaxed">SEO and digital marketing strategies that
+                            drive real, measurable results.</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex items-start gap-4 bg-brand-50/50 border border-brand-100 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                    <div
+                        class="w-10 h-10 flex-shrink-0 bg-brand-600 rounded-xl flex items-center justify-center text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-1">Transparent and Reliable Services</h4>
+                        <p class="text-slate-500 text-sm leading-relaxed">Clear reporting and honest communication at
+                            every step.</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex items-start gap-4 bg-brand-50/50 border border-brand-100 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                    <div
+                        class="w-10 h-10 flex-shrink-0 bg-brand-600 rounded-xl flex items-center justify-center text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-1">Customized Solutions for Every Business</h4>
+                        <p class="text-slate-500 text-sm leading-relaxed">Tailored services designed to fit your unique
+                            business needs and goals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-evenly gap-12 mb-12">
+            <div class="max-w-sm">
+                <p class="text-slate-400 max-w-sm mb-6 leading-relaxed">
+                    Helping you scale with confidence. Your one-stop destination for growth-oriented accounting and
+                    high-impact digital marketing.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="https://www.instagram.com/accumark_services?igsh=MThqODVhczNxbHMwbA==" target="_blank"
+                        class="group w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-brand-600 hover:border-brand-600 transition-all">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61580759856594" target="_blank"
+                        class="group w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-brand-600 hover:border-brand-600 transition-all">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="md:text-left">
+                <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-sm">Contact Info</h4>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        info@accumark.co.in
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                            </path>
+                        </svg>
+                        +91 99944 21537
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                            </path>
+                        </svg>
+                        +91 90805 13983
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 text-center border-t border-slate-900 pt-8 text-sm">
+            <p>Copyright © 2026 AccuMark Services. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="./theme.js" defer></script>
+</body>
+
+</html>

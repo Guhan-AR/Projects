@@ -1,0 +1,366 @@
+/* ============================================================
+   AccuMark Services — Premium Theme System
+   Light (default) + Dark Bluish Theme
+   ============================================================ */
+
+/* ---------- Base transition for smooth theme switching ---------- */
+*, *::before, *::after {
+  transition: background-color 0.45s ease, border-color 0.45s ease, color 0.35s ease, box-shadow 0.45s ease;
+}
+
+/* ---------- CSS Variables: Light Theme (default) ---------- */
+:root {
+  --bg-page:        #f8fafc;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #f1f5f9;
+  --bg-header:      rgba(255,255,255,0.92);
+  --bg-footer:      #020617;
+  --bg-dark-section:#0f172a;
+  --text-primary:   #0f172a;
+  --text-muted:     #64748b;
+  --text-faint:     #94a3b8;
+  --border-color:   #e2e8f0;
+  --brand-50:       #eff6ff;
+  --brand-100:      #dbeafe;
+  --brand-400:      #60a5fa;
+  --brand-500:      #3b82f6;
+  --brand-600:      #2563eb;
+  --brand-700:      #1d4ed8;
+  --brand-900:      #1e3a8a;
+  --shadow-card:    0 20px 40px rgba(0,0,0,0.08);
+  --glow:           none;
+  --particle-opacity: 0;
+}
+
+/* ---------- CSS Variables: Dark Theme ---------- */
+[data-theme="dark"] {
+  --bg-page:        #040d1a;
+  --bg-surface:     #081220;
+  --bg-elevated:    #0d1e38;
+  --bg-header:      rgba(4, 13, 26, 0.88);
+  --bg-footer:      #020810;
+  --bg-dark-section:#040d1a;
+  --text-primary:   #e2eeff;
+  --text-muted:     #94a3b8;
+  --text-faint:     #4a7ab5;
+  --border-color:   rgba(96, 165, 250, 0.15);
+  --brand-50:       rgba(59,130,246,0.08);
+  --brand-100:      rgba(59,130,246,0.15);
+  --brand-400:      #93c5fd;
+  --brand-500:      #60a5fa;
+  --brand-600:      #3b82f6;
+  --brand-700:      #2563eb;
+  --brand-900:      #1e3a8a;
+  --shadow-card:    0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(96,165,250,0.1);
+  --glow:           0 0 30px rgba(59,130,246,0.2);
+  --particle-opacity: 1;
+}
+
+/* ============================================================
+   PAGE & BODY
+   ============================================================ */
+[data-theme="dark"] body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+
+/* ---------- Animated deep-space background ---------- */
+[data-theme="dark"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(29,78,216,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59,130,246,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(99,102,241,0.05) 0%, transparent 60%);
+  animation: bgShift 20s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes bgShift {
+  0%   { transform: scale(1)   translate(0px, 0px); }
+  33%  { transform: scale(1.05) translate(-20px, 10px); }
+  66%  { transform: scale(0.97) translate(15px, -15px); }
+  100% { transform: scale(1.03) translate(-5px, 20px); }
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+[data-theme="dark"] header {
+  background: var(--bg-header) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  border-bottom-color: var(--border-color) !important;
+  box-shadow: 0 1px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(96,165,250,0.08) !important;
+}
+
+[data-theme="dark"] header nav a {
+  color: var(--text-muted) !important;
+}
+[data-theme="dark"] header nav a:hover {
+  color: var(--brand-400) !important;
+}
+[data-theme="dark"] header .get-started-btn,
+[data-theme="dark"] a[href="contact.html"].hidden {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6) !important;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.4) !important;
+}
+
+/* ============================================================
+   MOBILE DRAWER
+   ============================================================ */
+[data-theme="dark"] #mobileDrawer {
+  background: #061022 !important;
+  border-left: 1px solid var(--border-color) !important;
+}
+[data-theme="dark"] #mobileDrawer nav a:hover {
+  background: rgba(59,130,246,0.1) !important;
+  color: var(--brand-400) !important;
+}
+
+/* ============================================================
+   SECTIONS — LIGHT AREAS  (bg-white, bg-slate-50, bg-brand-50)
+   ============================================================ */
+[data-theme="dark"] section,
+[data-theme="dark"] .bg-white:not(header):not(footer):not(#mobileDrawer),
+[data-theme="dark"] .bg-slate-50:not(header):not(footer):not(#mobileDrawer) {
+  background-color: var(--bg-page) !important;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.1) !important;
+  position: relative;
+  z-index: 2;
+}
+
+[data-theme="dark"] .bg-brand-50\/50 {
+  background-color: rgba(59,130,246,0.05) !important;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+[data-theme="dark"] .bg-white.p-10,
+[data-theme="dark"] .bg-white.p-8,
+[data-theme="dark"] .bg-white.p-12,
+[data-theme="dark"] [class*="rounded-"][class*="bg-white"] {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+/* 3D Card Hover Effect */
+[data-theme="dark"] .bg-white.rounded-3xl,
+[data-theme="dark"] .bg-white.rounded-\[3rem\] {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+}
+[data-theme="dark"] .bg-white.rounded-3xl:hover,
+[data-theme="dark"] .bg-white.rounded-\[3rem\]:hover {
+  transform: translateY(-6px) rotateX(2deg) rotateY(-1deg);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(96,165,250,0.2), 0 0 40px rgba(59,130,246,0.15) !important;
+}
+
+/* Service cards */
+[data-theme="dark"] .bg-white.p-10.rounded-3xl {
+  background: linear-gradient(135deg, #0d1e38 0%, #081525 100%) !important;
+}
+
+/* ============================================================
+   TEXT
+   ============================================================ */
+[data-theme="dark"] .text-slate-900,
+[data-theme="dark"] h1, [data-theme="dark"] h2,
+[data-theme="dark"] h3, [data-theme="dark"] h4 {
+  color: var(--text-primary) !important;
+}
+[data-theme="dark"] .text-slate-600,
+[data-theme="dark"] .text-slate-700,
+[data-theme="dark"] p {
+  color: var(--text-muted) !important;
+}
+[data-theme="dark"] .text-slate-500,
+[data-theme="dark"] .text-slate-400 {
+  color: var(--text-faint) !important;
+}
+
+/* ============================================================
+   FORM INPUTS
+   ============================================================ */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: rgba(13,30,56,0.8) !important;
+  border-color: rgba(96,165,250,0.2) !important;
+  color: var(--text-primary) !important;
+}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: var(--brand-500) !important;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2), 0 0 20px rgba(59,130,246,0.15) !important;
+}
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--text-faint) !important;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+[data-theme="dark"] footer {
+  background: var(--bg-footer) !important;
+  border-top-color: rgba(96,165,250,0.1) !important;
+}
+[data-theme="dark"] footer .border-slate-900 {
+  border-color: rgba(96,165,250,0.08) !important;
+}
+
+/* ============================================================
+   BORDERS & DIVIDERS
+   ============================================================ */
+[data-theme="dark"] .border-slate-100,
+[data-theme="dark"] .border-slate-200 {
+  border-color: var(--border-color) !important;
+}
+
+/* ============================================================
+   DARK SECTIONS (already dark — slate-900, slate-950)
+   ============================================================ */
+[data-theme="dark"] .bg-slate-900 {
+  background: linear-gradient(135deg, #060f1e 0%, #040d1a 100%) !important;
+}
+[data-theme="dark"] .bg-slate-950 {
+  background: #020810 !important;
+}
+
+/* ============================================================
+   BRAND ACCENT — glowing in dark mode
+   ============================================================ */
+[data-theme="dark"] .text-brand-600 {
+  color: var(--brand-400) !important;
+}
+[data-theme="dark"] .bg-brand-600 {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6) !important;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.4) !important;
+}
+[data-theme="dark"] .bg-brand-900 {
+  background: linear-gradient(135deg, #1e3a8a, #1d4ed8) !important;
+  box-shadow: 0 4px 25px rgba(30,58,138,0.6) !important;
+}
+[data-theme="dark"] .bg-brand-50 {
+  background: rgba(59,130,246,0.1) !important;
+}
+[data-theme="dark"] .bg-brand-100 {
+  background: rgba(59,130,246,0.15) !important;
+}
+
+/* ============================================================
+   INDUSTRY / STATS CARDS (white/5 in dark section)
+   ============================================================ */
+[data-theme="dark"] .bg-white\/5 {
+  background: rgba(96,165,250,0.05) !important;
+  border-color: rgba(96,165,250,0.1) !important;
+}
+[data-theme="dark"] .bg-white\/5:hover {
+  background: rgba(96,165,250,0.1) !important;
+}
+
+/* ============================================================
+   THEME TOGGLE BUTTON
+   ============================================================ */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: rgba(100,116,139,0.1);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease !important;
+  flex-shrink: 0;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(96,165,250,0.15);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(96,165,250,0.3);
+}
+
+.theme-toggle-btn svg {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease !important;
+  position: absolute;
+}
+
+.theme-toggle-btn .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+.theme-toggle-btn .icon-sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
+[data-theme="dark"] .theme-toggle-btn .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+[data-theme="dark"] .theme-toggle-btn .icon-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+
+[data-theme="dark"] .theme-toggle-btn {
+  background: rgba(59,130,246,0.12);
+  box-shadow: 0 0 15px rgba(59,130,246,0.2);
+}
+
+/* ============================================================
+   RIPPLE EFFECT (plays on toggle)
+   ============================================================ */
+.theme-ripple {
+  position: fixed;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, rgba(59,130,246,0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: rippleExpand 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+@keyframes rippleExpand {
+  to { transform: translate(-50%, -50%) scale(250); opacity: 0; }
+}
+
+/* ============================================================
+   STAR PARTICLES (dark mode only)
+   ============================================================ */
+.stars-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--particle-opacity);
+  transition: opacity 0.8s ease !important;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: starFloat linear infinite;
+}
+@keyframes starFloat {
+  0%   { transform: translateY(0px); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* ============================================================
+   LOGO — slight glow in dark mode
+   ============================================================ */
+[data-theme="dark"] header img {
+  filter: brightness(1.1) drop-shadow(0 0 8px rgba(59,130,246,0.3));
+}
+
+/* ============================================================
+   SMOOTH PAGE LOAD (prevent flash of unstyled content)
+   ============================================================ */
+html {
+  transition: none !important;
+}
+html.theme-loaded {
+  transition: background-color 0.45s ease !important;
+}

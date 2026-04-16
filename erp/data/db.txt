@@ -1,0 +1,1086 @@
+// ============================================================
+//   MNC SAREE PRODUCTION & MARKETING MANAGEMENT SYSTEM
+//   MongoDB Database Structure — Collections, Schemas & Indexes
+//   Database: saree_mnc_db
+// ============================================================
+
+use("saree_mnc_db");
+
+// ============================================================
+// MODULE 1: ORGANIZATION & MASTER SETUP
+// ============================================================
+
+// --- 1.1 Company / Branch Master ---
+db.createCollection("branches", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["branch_id", "branch_name", "branch_type", "status"],
+      properties: {
+        branch_id:       { bsonType: "string" },
+        branch_name:     { bsonType: "string" },
+        branch_type:     { enum: ["HQ", "Manufacturing", "Warehouse", "Showroom", "Regional Office"] },
+        address: {
+          bsonType: "object",
+          properties: {
+            street:   { bsonType: "string" },
+            city:     { bsonType: "string" },
+            state:    { bsonType: "string" },
+            pincode:  { bsonType: "string" },
+            country:  { bsonType: "string" }
+          }
+        },
+        contact_email:   { bsonType: "string" },
+        contact_phone:   { bsonType: "string" },
+        gstin:           { bsonType: "string" },
+        manager_emp_id:  { bsonType: "string" },
+        status:          { enum: ["Active", "Inactive"] },
+        created_at:      { bsonType: "date" },
+        updated_at:      { bsonType: "date" }
+      }
+    }
+  }
+});
+db.branches.createIndex({ branch_id: 1 }, { unique: true });
+db.branches.createIndex({ branch_type: 1 });
+
+
+// --- 1.2 Departments ---
+db.createCollection("departments", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["dept_id", "dept_name", "branch_id"],
+      properties: {
+        dept_id:       { bsonType: "string" },
+        dept_name:     { bsonType: "string" },   // Production, Marketing, HR, Finance, QC, Logistics
+        branch_id:     { bsonType: "string" },
+        head_emp_id:   { bsonType: "string" },
+        status:        { enum: ["Active", "Inactive"] }
+      }
+    }
+  }
+});
+db.departments.createIndex({ dept_id: 1 }, { unique: true });
+db.departments.createIndex({ branch_id: 1 });
+
+
+// --- 1.3 Employees / HR ---
+db.createCollection("employees", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["emp_id", "name", "dept_id", "branch_id", "role", "status"],
+      properties: {
+        emp_id:         { bsonType: "string" },
+        name:           { bsonType: "string" },
+        email:          { bsonType: "string" },
+        phone:          { bsonType: "string" },
+        dept_id:        { bsonType: "string" },
+        branch_id:      { bsonType: "string" },
+        role:           { enum: ["Admin", "Manager", "Supervisor", "Weaver", "QC Inspector",
+                                  "Sales Executive", "Accountant", "Warehouse Staff", "Designer"] },
+        designation:    { bsonType: "string" },
+        date_of_joining:{ bsonType: "date" },
+        salary:         { bsonType: "double" },
+        skills:         { bsonType: "array", items: { bsonType: "string" } },
+        aadhar:         { bsonType: "string" },
+        pan:            { bsonType: "string" },
+        bank_details: {
+          bsonType: "object",
+          properties: {
+            account_no:  { bsonType: "string" },
+            ifsc:        { bsonType: "string" },
+            bank_name:   { bsonType: "string" }
+          }
+        },
+        status:         { enum: ["Active", "Inactive", "On Leave", "Terminated"] },
+        created_at:     { bsonType: "date" },
+        updated_at:     { bsonType: "date" }
+      }
+    }
+  }
+});
+db.employees.createIndex({ emp_id: 1 }, { unique: true });
+db.employees.createIndex({ dept_id: 1 });
+db.employees.createIndex({ branch_id: 1 });
+db.employees.createIndex({ role: 1 });
+
+
+// ============================================================
+// MODULE 2: SUPPLIER MANAGEMENT
+// ============================================================
+
+db.createCollection("suppliers", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["supplier_id", "supplier_name", "supplier_type", "status"],
+      properties: {
+        supplier_id:       { bsonType: "string" },
+        supplier_name:     { bsonType: "string" },
+        supplier_type:     { enum: ["Yarn", "Zari", "Dye", "Chemical", "Packaging", "Loom Parts", "Others"] },
+        contact_person:    { bsonType: "string" },
+        email:             { bsonType: "string" },
+        phone:             { bsonType: "string" },
+        address: {
+          bsonType: "object",
+          properties: {
+            street:  { bsonType: "string" },
+            city:    { bsonType: "string" },
+            state:   { bsonType: "string" },
+            pincode: { bsonType: "string" },
+            country: { bsonType: "string" }
+          }
+        },
+        gstin:             { bsonType: "string" },
+        pan:               { bsonType: "string" },
+        bank_details: {
+          bsonType: "object",
+          properties: {
+            account_no: { bsonType: "string" },
+            ifsc:       { bsonType: "string" },
+            bank_name:  { bsonType: "string" }
+          }
+        },
+        payment_terms_days:{ bsonType: "int" },
+        credit_limit:      { bsonType: "double" },
+        outstanding_amount:{ bsonType: "double" },
+        rating:            { bsonType: "double" },             // 1-5
+        materials_supplied:{ bsonType: "array", items: { bsonType: "string" } },
+        status:            { enum: ["Active", "Inactive", "Blacklisted"] },
+        created_at:        { bsonType: "date" },
+        updated_at:        { bsonType: "date" }
+      }
+    }
+  }
+});
+db.suppliers.createIndex({ supplier_id: 1 }, { unique: true });
+db.suppliers.createIndex({ supplier_type: 1 });
+db.suppliers.createIndex({ status: 1 });
+
+
+// ============================================================
+// MODULE 3: RAW MATERIAL MANAGEMENT
+// ============================================================
+
+db.createCollection("raw_materials", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["material_id", "material_name", "category", "unit"],
+      properties: {
+        material_id:       { bsonType: "string" },
+        material_name:     { bsonType: "string" },
+        category:          { enum: ["Yarn", "Zari", "Dye", "Chemical", "Packaging", "Thread", "Others"] },
+        sub_category:      { bsonType: "string" },
+        unit:              { enum: ["kg", "g", "meter", "liter", "piece", "roll", "bundle"] },
+        current_stock:     { bsonType: "double" },
+        reorder_level:     { bsonType: "double" },
+        reorder_quantity:  { bsonType: "double" },
+        unit_cost:         { bsonType: "double" },
+        warehouse_id:      { bsonType: "string" },
+        rack_location:     { bsonType: "string" },
+        preferred_supplier_ids: { bsonType: "array", items: { bsonType: "string" } },
+        hsn_code:          { bsonType: "string" },
+        gst_percentage:    { bsonType: "double" },
+        last_purchased_date: { bsonType: "date" },
+        status:            { enum: ["Active", "Inactive", "Discontinued"] },
+        created_at:        { bsonType: "date" },
+        updated_at:        { bsonType: "date" }
+      }
+    }
+  }
+});
+db.raw_materials.createIndex({ material_id: 1 }, { unique: true });
+db.raw_materials.createIndex({ category: 1 });
+db.raw_materials.createIndex({ current_stock: 1, reorder_level: 1 });  // Low stock queries
+
+
+// --- 3.1 Purchase Orders ---
+db.createCollection("purchase_orders", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["po_id", "supplier_id", "branch_id", "status", "order_date"],
+      properties: {
+        po_id:          { bsonType: "string" },
+        supplier_id:    { bsonType: "string" },
+        branch_id:      { bsonType: "string" },
+        order_date:     { bsonType: "date" },
+        expected_date:  { bsonType: "date" },
+        received_date:  { bsonType: "date" },
+        items: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            required: ["material_id", "quantity", "unit_price"],
+            properties: {
+              material_id:   { bsonType: "string" },
+              quantity:      { bsonType: "double" },
+              unit:          { bsonType: "string" },
+              unit_price:    { bsonType: "double" },
+              total_price:   { bsonType: "double" },
+              received_qty:  { bsonType: "double" },
+              rejected_qty:  { bsonType: "double" }
+            }
+          }
+        },
+        subtotal:       { bsonType: "double" },
+        tax_amount:     { bsonType: "double" },
+        total_amount:   { bsonType: "double" },
+        payment_status: { enum: ["Pending", "Partial", "Paid"] },
+        status:         { enum: ["Draft", "Approved", "Dispatched", "Partially Received", "Received", "Cancelled"] },
+        approved_by:    { bsonType: "string" },
+        remarks:        { bsonType: "string" },
+        created_by:     { bsonType: "string" },
+        created_at:     { bsonType: "date" },
+        updated_at:     { bsonType: "date" }
+      }
+    }
+  }
+});
+db.purchase_orders.createIndex({ po_id: 1 }, { unique: true });
+db.purchase_orders.createIndex({ supplier_id: 1 });
+db.purchase_orders.createIndex({ status: 1 });
+db.purchase_orders.createIndex({ order_date: -1 });
+
+
+// ============================================================
+// MODULE 4: DESIGN & CATALOG MANAGEMENT
+// ============================================================
+
+db.createCollection("saree_designs", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["design_id", "design_name", "category", "fabric_type"],
+      properties: {
+        design_id:           { bsonType: "string" },
+        design_name:         { bsonType: "string" },
+        category:            { enum: ["Silk", "Cotton", "Georgette", "Chiffon", "Linen",
+                                      "Banarasi", "Kanjivaram", "Chanderi", "Patola", "Others"] },
+        sub_category:        { bsonType: "string" },
+        fabric_type:         { bsonType: "string" },
+        weave_pattern:       { bsonType: "string" },
+        occasion:            { bsonType: "array", items: { bsonType: "string" } }, // Wedding, Casual, Festival
+        available_colors:    { bsonType: "array", items: { bsonType: "string" } },
+        design_images:       { bsonType: "array", items: { bsonType: "string" } }, // image URLs/paths
+        dimensions: {
+          bsonType: "object",
+          properties: {
+            length_meters:  { bsonType: "double" },
+            width_inches:   { bsonType: "double" },
+            blouse_included:{ bsonType: "bool" }
+          }
+        },
+        weight_grams:          { bsonType: "double" },
+        production_time_days:  { bsonType: "int" },
+        raw_materials_required: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              material_id:      { bsonType: "string" },
+              qty_per_piece:    { bsonType: "double" },
+              unit:             { bsonType: "string" }
+            }
+          }
+        },
+        cost_of_production:   { bsonType: "double" },
+        mrp:                  { bsonType: "double" },
+        wholesale_price:      { bsonType: "double" },
+        retail_price:         { bsonType: "double" },
+        export_price_usd:     { bsonType: "double" },
+        gst_percentage:       { bsonType: "double" },
+        hsn_code:             { bsonType: "string" },
+        collection_id:        { bsonType: "string" },      // Reference to seasonal collection
+        designer_emp_id:      { bsonType: "string" },
+        tags:                 { bsonType: "array", items: { bsonType: "string" } },
+        status:               { enum: ["Active", "Discontinued", "Draft", "Archived"] },
+        created_at:           { bsonType: "date" },
+        updated_at:           { bsonType: "date" }
+      }
+    }
+  }
+});
+db.saree_designs.createIndex({ design_id: 1 }, { unique: true });
+db.saree_designs.createIndex({ category: 1, status: 1 });
+db.saree_designs.createIndex({ mrp: 1 });
+db.saree_designs.createIndex({ available_colors: 1 });
+db.saree_designs.createIndex({ tags: 1 });
+db.saree_designs.createIndex(
+  { design_name: "text", category: "text", tags: "text" },
+  { name: "design_fulltext_search" }
+);
+
+
+// --- 4.1 Seasonal Collections ---
+db.createCollection("collections", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["collection_id", "collection_name", "season", "year"],
+      properties: {
+        collection_id:    { bsonType: "string" },
+        collection_name:  { bsonType: "string" },
+        season:           { enum: ["Summer", "Winter", "Monsoon", "Festive", "Wedding", "Year Round"] },
+        year:             { bsonType: "int" },
+        launch_date:      { bsonType: "date" },
+        end_date:         { bsonType: "date" },
+        design_ids:       { bsonType: "array", items: { bsonType: "string" } },
+        catalog_url:      { bsonType: "string" },
+        status:           { enum: ["Upcoming", "Active", "Ended"] },
+        created_at:       { bsonType: "date" }
+      }
+    }
+  }
+});
+db.collections.createIndex({ collection_id: 1 }, { unique: true });
+db.collections.createIndex({ season: 1, year: 1 });
+
+
+// ============================================================
+// MODULE 5: PRODUCTION MANAGEMENT
+// ============================================================
+
+db.createCollection("weaving_units", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["unit_id", "unit_name", "branch_id"],
+      properties: {
+        unit_id:          { bsonType: "string" },
+        unit_name:        { bsonType: "string" },
+        branch_id:        { bsonType: "string" },
+        unit_type:        { enum: ["Handloom", "Powerloom", "Hybrid"] },
+        total_looms:      { bsonType: "int" },
+        active_looms:     { bsonType: "int" },
+        supervisor_emp_id:{ bsonType: "string" },
+        capacity_per_day: { bsonType: "int" },          // pieces/day
+        status:           { enum: ["Active", "Inactive", "Under Maintenance"] },
+        created_at:       { bsonType: "date" }
+      }
+    }
+  }
+});
+db.weaving_units.createIndex({ unit_id: 1 }, { unique: true });
+db.weaving_units.createIndex({ branch_id: 1 });
+
+
+db.createCollection("looms", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["loom_id", "unit_id", "loom_type"],
+      properties: {
+        loom_id:          { bsonType: "string" },
+        unit_id:          { bsonType: "string" },
+        loom_type:        { enum: ["Handloom", "Powerloom", "Jacquard", "Dobby", "Rapier"] },
+        assigned_weaver:  { bsonType: "string" },       // emp_id
+        current_order_id: { bsonType: "string" },
+        last_maintenance: { bsonType: "date" },
+        next_maintenance: { bsonType: "date" },
+        status:           { enum: ["Idle", "In Use", "Under Maintenance", "Breakdown"] },
+        created_at:       { bsonType: "date" }
+      }
+    }
+  }
+});
+db.looms.createIndex({ loom_id: 1 }, { unique: true });
+db.looms.createIndex({ unit_id: 1, status: 1 });
+
+
+db.createCollection("production_orders", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["prod_order_id", "design_id", "quantity", "unit_id", "status"],
+      properties: {
+        prod_order_id:       { bsonType: "string" },
+        design_id:           { bsonType: "string" },
+        color:               { bsonType: "string" },
+        quantity:            { bsonType: "int" },
+        unit_id:             { bsonType: "string" },
+        assigned_looms:      { bsonType: "array", items: { bsonType: "string" } },
+        assigned_weavers:    { bsonType: "array", items: { bsonType: "string" } },
+        raw_material_issue: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              material_id:    { bsonType: "string" },
+              issued_qty:     { bsonType: "double" },
+              issue_date:     { bsonType: "date" }
+            }
+          }
+        },
+        quantity_completed:  { bsonType: "int" },
+        quantity_rejected:   { bsonType: "int" },
+        start_date:          { bsonType: "date" },
+        expected_end_date:   { bsonType: "date" },
+        actual_end_date:     { bsonType: "date" },
+        priority:            { enum: ["Low", "Normal", "High", "Urgent"] },
+        status:              { enum: ["Planned", "In Progress", "QC Pending", "Completed",
+                                      "Partially Completed", "On Hold", "Cancelled"] },
+        qc_status:           { enum: ["Pending", "Passed", "Failed", "Partial Pass"] },
+        qc_remarks:          { bsonType: "string" },
+        qc_done_by:          { bsonType: "string" },
+        sales_order_ref:     { bsonType: "string" },   // If triggered by a sales order
+        created_by:          { bsonType: "string" },
+        created_at:          { bsonType: "date" },
+        updated_at:          { bsonType: "date" }
+      }
+    }
+  }
+});
+db.production_orders.createIndex({ prod_order_id: 1 }, { unique: true });
+db.production_orders.createIndex({ design_id: 1 });
+db.production_orders.createIndex({ unit_id: 1, status: 1 });
+db.production_orders.createIndex({ expected_end_date: 1 });
+db.production_orders.createIndex({ status: 1, priority: -1 });
+
+
+// ============================================================
+// MODULE 6: QUALITY CONTROL
+// ============================================================
+
+db.createCollection("qc_inspections", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["qc_id", "prod_order_id", "inspector_emp_id", "inspection_date", "result"],
+      properties: {
+        qc_id:              { bsonType: "string" },
+        prod_order_id:      { bsonType: "string" },
+        design_id:          { bsonType: "string" },
+        batch_id:           { bsonType: "string" },
+        inspector_emp_id:   { bsonType: "string" },
+        inspection_date:    { bsonType: "date" },
+        total_inspected:    { bsonType: "int" },
+        passed_qty:         { bsonType: "int" },
+        failed_qty:         { bsonType: "int" },
+        defect_types: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              defect_name:  { bsonType: "string" },  // Torn, Color Bleed, Weave Gap, Zari Break
+              count:        { bsonType: "int" },
+              severity:     { enum: ["Minor", "Major", "Critical"] }
+            }
+          }
+        },
+        sample_images:      { bsonType: "array", items: { bsonType: "string" } },
+        result:             { enum: ["Passed", "Failed", "Conditional Pass"] },
+        action_taken:       { enum: ["Released", "Rework", "Rejected", "Pending Decision"] },
+        remarks:            { bsonType: "string" },
+        created_at:         { bsonType: "date" }
+      }
+    }
+  }
+});
+db.qc_inspections.createIndex({ qc_id: 1 }, { unique: true });
+db.qc_inspections.createIndex({ prod_order_id: 1 });
+db.qc_inspections.createIndex({ result: 1 });
+db.qc_inspections.createIndex({ inspection_date: -1 });
+
+
+// ============================================================
+// MODULE 7: WAREHOUSE & INVENTORY
+// ============================================================
+
+db.createCollection("warehouses", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["warehouse_id", "warehouse_name", "branch_id"],
+      properties: {
+        warehouse_id:   { bsonType: "string" },
+        warehouse_name: { bsonType: "string" },
+        branch_id:      { bsonType: "string" },
+        warehouse_type: { enum: ["Raw Material", "Finished Goods", "Dispatch", "Return", "Combined"] },
+        address: {
+          bsonType: "object",
+          properties: {
+            street:  { bsonType: "string" },
+            city:    { bsonType: "string" },
+            state:   { bsonType: "string" },
+            pincode: { bsonType: "string" }
+          }
+        },
+        total_capacity:    { bsonType: "int" },
+        manager_emp_id:    { bsonType: "string" },
+        status:            { enum: ["Active", "Inactive"] },
+        created_at:        { bsonType: "date" }
+      }
+    }
+  }
+});
+db.warehouses.createIndex({ warehouse_id: 1 }, { unique: true });
+db.warehouses.createIndex({ branch_id: 1 });
+
+
+db.createCollection("inventory", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["sku", "design_id", "warehouse_id", "batch_id"],
+      properties: {
+        sku:               { bsonType: "string" },   // Unique: design_id + color + batch
+        design_id:         { bsonType: "string" },
+        color:             { bsonType: "string" },
+        batch_id:          { bsonType: "string" },
+        prod_order_id:     { bsonType: "string" },
+        barcode:           { bsonType: "string" },
+        warehouse_id:      { bsonType: "string" },
+        rack_location:     { bsonType: "string" },
+        qty_available:     { bsonType: "int" },
+        qty_reserved:      { bsonType: "int" },
+        qty_sold:          { bsonType: "int" },
+        qty_damaged:       { bsonType: "int" },
+        cost_per_piece:    { bsonType: "double" },
+        mrp:               { bsonType: "double" },
+        manufacturing_date:{ bsonType: "date" },
+        status:            { enum: ["Available", "Reserved", "Sold Out", "Damaged", "Returned"] },
+        created_at:        { bsonType: "date" },
+        updated_at:        { bsonType: "date" }
+      }
+    }
+  }
+});
+db.inventory.createIndex({ sku: 1 }, { unique: true });
+db.inventory.createIndex({ design_id: 1, color: 1 });
+db.inventory.createIndex({ warehouse_id: 1 });
+db.inventory.createIndex({ qty_available: 1 });
+db.inventory.createIndex({ barcode: 1 });
+db.inventory.createIndex({ status: 1 });
+
+
+// --- Stock Movement Log ---
+db.createCollection("stock_movements", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["movement_id", "sku", "movement_type", "quantity", "movement_date"],
+      properties: {
+        movement_id:    { bsonType: "string" },
+        sku:            { bsonType: "string" },
+        design_id:      { bsonType: "string" },
+        movement_type:  { enum: ["IN", "OUT", "TRANSFER", "RETURN", "DAMAGE", "ADJUSTMENT"] },
+        quantity:       { bsonType: "int" },
+        from_warehouse: { bsonType: "string" },
+        to_warehouse:   { bsonType: "string" },
+        reference_id:   { bsonType: "string" },   // PO / SO / Transfer Order ID
+        reference_type: { enum: ["Purchase", "Sale", "Transfer", "Production", "Return", "Adjustment"] },
+        movement_date:  { bsonType: "date" },
+        done_by:        { bsonType: "string" },
+        remarks:        { bsonType: "string" },
+        created_at:     { bsonType: "date" }
+      }
+    }
+  }
+});
+db.stock_movements.createIndex({ movement_id: 1 }, { unique: true });
+db.stock_movements.createIndex({ sku: 1 });
+db.stock_movements.createIndex({ movement_type: 1 });
+db.stock_movements.createIndex({ movement_date: -1 });
+
+
+// ============================================================
+// MODULE 8: CUSTOMER MANAGEMENT
+// ============================================================
+
+db.createCollection("customers", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["customer_id", "customer_type", "name", "phone", "status"],
+      properties: {
+        customer_id:      { bsonType: "string" },
+        customer_type:    { enum: ["Retail", "Wholesale", "Distributor", "Export", "Corporate"] },
+        name:             { bsonType: "string" },
+        business_name:    { bsonType: "string" },
+        email:            { bsonType: "string" },
+        phone:            { bsonType: "string" },
+        alternate_phone:  { bsonType: "string" },
+        gstin:            { bsonType: "string" },
+        pan:              { bsonType: "string" },
+        billing_address: {
+          bsonType: "object",
+          properties: {
+            street:   { bsonType: "string" },
+            city:     { bsonType: "string" },
+            state:    { bsonType: "string" },
+            pincode:  { bsonType: "string" },
+            country:  { bsonType: "string" }
+          }
+        },
+        shipping_addresses: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              address_id: { bsonType: "string" },
+              label:      { bsonType: "string" },
+              street:     { bsonType: "string" },
+              city:       { bsonType: "string" },
+              state:      { bsonType: "string" },
+              pincode:    { bsonType: "string" },
+              country:    { bsonType: "string" },
+              is_default: { bsonType: "bool" }
+            }
+          }
+        },
+        credit_limit:       { bsonType: "double" },
+        outstanding_amount: { bsonType: "double" },
+        payment_terms_days: { bsonType: "int" },
+        discount_percentage:{ bsonType: "double" },
+        loyalty_points:     { bsonType: "int" },
+        segment:            { enum: ["Standard", "Silver", "Gold", "Platinum", "VIP"] },
+        assigned_sales_emp: { bsonType: "string" },
+        preferred_categories:{ bsonType: "array", items: { bsonType: "string" } },
+        kyc_verified:       { bsonType: "bool" },
+        kyc_documents:      { bsonType: "array", items: { bsonType: "string" } },
+        source:             { enum: ["Direct", "Reference", "Exhibition", "Online", "Agent", "Export Agent"] },
+        status:             { enum: ["Active", "Inactive", "Blocked"] },
+        created_at:         { bsonType: "date" },
+        updated_at:         { bsonType: "date" }
+      }
+    }
+  }
+});
+db.customers.createIndex({ customer_id: 1 }, { unique: true });
+db.customers.createIndex({ phone: 1 }, { unique: true });
+db.customers.createIndex({ email: 1 });
+db.customers.createIndex({ customer_type: 1 });
+db.customers.createIndex({ segment: 1 });
+db.customers.createIndex({ gstin: 1 });
+db.customers.createIndex({ "billing_address.state": 1, "billing_address.city": 1 });
+
+
+// ============================================================
+// MODULE 9: SALES & ORDER MANAGEMENT
+// ============================================================
+
+db.createCollection("sales_orders", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["order_id", "customer_id", "order_date", "channel", "status"],
+      properties: {
+        order_id:         { bsonType: "string" },
+        customer_id:      { bsonType: "string" },
+        order_date:       { bsonType: "date" },
+        channel:          { enum: ["Showroom", "Wholesale", "Online", "Exhibition",
+                                   "Export", "Corporate", "Phone Order"] },
+        branch_id:        { bsonType: "string" },
+        sales_emp_id:     { bsonType: "string" },
+        order_items: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            required: ["design_id", "sku", "quantity", "unit_price"],
+            properties: {
+              item_id:       { bsonType: "string" },
+              design_id:     { bsonType: "string" },
+              sku:           { bsonType: "string" },
+              color:         { bsonType: "string" },
+              quantity:      { bsonType: "int" },
+              unit_price:    { bsonType: "double" },
+              discount_pct:  { bsonType: "double" },
+              discount_amt:  { bsonType: "double" },
+              taxable_amt:   { bsonType: "double" },
+              cgst:          { bsonType: "double" },
+              sgst:          { bsonType: "double" },
+              igst:          { bsonType: "double" },
+              total_amount:  { bsonType: "double" }
+            }
+          }
+        },
+        shipping_address_id: { bsonType: "string" },
+        subtotal:            { bsonType: "double" },
+        total_discount:      { bsonType: "double" },
+        total_tax:           { bsonType: "double" },
+        shipping_charges:    { bsonType: "double" },
+        grand_total:         { bsonType: "double" },
+        advance_paid:        { bsonType: "double" },
+        balance_due:         { bsonType: "double" },
+        currency:            { enum: ["INR", "USD", "EUR", "GBP", "AED"] },
+        exchange_rate:       { bsonType: "double" },
+        payment_terms:       { bsonType: "string" },
+        expected_delivery:   { bsonType: "date" },
+        actual_delivery:     { bsonType: "date" },
+        payment_status:      { enum: ["Unpaid", "Partial", "Paid", "Refunded"] },
+        fulfillment_status:  { enum: ["Pending", "Processing", "Packed", "Shipped",
+                                      "Delivered", "Returned", "Cancelled"] },
+        status:              { enum: ["Draft", "Confirmed", "Processing", "Completed",
+                                      "Cancelled", "On Hold"] },
+        notes:               { bsonType: "string" },
+        created_at:          { bsonType: "date" },
+        updated_at:          { bsonType: "date" }
+      }
+    }
+  }
+});
+db.sales_orders.createIndex({ order_id: 1 }, { unique: true });
+db.sales_orders.createIndex({ customer_id: 1 });
+db.sales_orders.createIndex({ order_date: -1 });
+db.sales_orders.createIndex({ channel: 1 });
+db.sales_orders.createIndex({ status: 1, fulfillment_status: 1 });
+db.sales_orders.createIndex({ payment_status: 1 });
+db.sales_orders.createIndex({ sales_emp_id: 1 });
+db.sales_orders.createIndex({ branch_id: 1, order_date: -1 });
+
+
+// ============================================================
+// MODULE 10: PAYMENTS & FINANCE
+// ============================================================
+
+db.createCollection("payments", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["payment_id", "payment_type", "reference_id", "amount", "payment_date"],
+      properties: {
+        payment_id:       { bsonType: "string" },
+        payment_type:     { enum: ["Received", "Paid"] },  // Received from customer / Paid to supplier
+        reference_id:     { bsonType: "string" },          // order_id or po_id
+        reference_type:   { enum: ["Sales Order", "Purchase Order", "Advance", "Refund"] },
+        party_id:         { bsonType: "string" },          // customer_id or supplier_id
+        party_type:       { enum: ["Customer", "Supplier"] },
+        amount:           { bsonType: "double" },
+        currency:         { enum: ["INR", "USD", "EUR", "GBP", "AED"] },
+        exchange_rate:    { bsonType: "double" },
+        payment_mode:     { enum: ["Cash", "Cheque", "NEFT", "RTGS", "UPI", "Card",
+                                    "DD", "Bank Transfer", "LC"] },
+        transaction_ref:  { bsonType: "string" },          // UTR / Cheque No
+        bank_account:     { bsonType: "string" },
+        payment_date:     { bsonType: "date" },
+        status:           { enum: ["Pending", "Cleared", "Bounced", "Cancelled"] },
+        tds_amount:       { bsonType: "double" },
+        remarks:          { bsonType: "string" },
+        recorded_by:      { bsonType: "string" },
+        created_at:       { bsonType: "date" }
+      }
+    }
+  }
+});
+db.payments.createIndex({ payment_id: 1 }, { unique: true });
+db.payments.createIndex({ reference_id: 1 });
+db.payments.createIndex({ party_id: 1, party_type: 1 });
+db.payments.createIndex({ payment_date: -1 });
+db.payments.createIndex({ payment_type: 1, status: 1 });
+
+
+// ============================================================
+// MODULE 11: LOGISTICS & SHIPPING
+// ============================================================
+
+db.createCollection("shipments", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["shipment_id", "order_id", "warehouse_id", "carrier", "status"],
+      properties: {
+        shipment_id:     { bsonType: "string" },
+        order_id:        { bsonType: "string" },
+        warehouse_id:    { bsonType: "string" },
+        carrier:         { bsonType: "string" },          // DTDC, BlueDart, FedEx, DHL, Self
+        tracking_number: { bsonType: "string" },
+        awb_number:      { bsonType: "string" },
+        shipment_type:   { enum: ["Domestic", "International"] },
+        packages: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              package_id:    { bsonType: "string" },
+              weight_kg:     { bsonType: "double" },
+              dimensions_cm: { bsonType: "string" },
+              items_count:   { bsonType: "int" }
+            }
+          }
+        },
+        dispatch_date:   { bsonType: "date" },
+        estimated_delivery:{ bsonType: "date" },
+        actual_delivery: { bsonType: "date" },
+        shipping_cost:   { bsonType: "double" },
+        insurance_value: { bsonType: "double" },
+        delivery_address:{ bsonType: "object" },
+        status:          { enum: ["Pending", "Picked Up", "In Transit", "Out for Delivery",
+                                   "Delivered", "Failed Delivery", "Returned"] },
+        tracking_history: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              timestamp:   { bsonType: "date" },
+              location:    { bsonType: "string" },
+              event:       { bsonType: "string" }
+            }
+          }
+        },
+        dispatched_by:   { bsonType: "string" },
+        created_at:      { bsonType: "date" },
+        updated_at:      { bsonType: "date" }
+      }
+    }
+  }
+});
+db.shipments.createIndex({ shipment_id: 1 }, { unique: true });
+db.shipments.createIndex({ order_id: 1 });
+db.shipments.createIndex({ tracking_number: 1 });
+db.shipments.createIndex({ status: 1 });
+db.shipments.createIndex({ dispatch_date: -1 });
+
+
+// ============================================================
+// MODULE 12: MARKETING & PROMOTIONS
+// ============================================================
+
+db.createCollection("campaigns", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["campaign_id", "campaign_name", "channel", "start_date", "end_date"],
+      properties: {
+        campaign_id:        { bsonType: "string" },
+        campaign_name:      { bsonType: "string" },
+        campaign_type:      { enum: ["Discount", "BOGO", "Seasonal", "Loyalty", "Referral",
+                                      "Exhibition", "Launch", "Clearance"] },
+        channel:            { enum: ["SMS", "Email", "WhatsApp", "Social Media", "In-Store",
+                                      "Exhibition", "Online", "All"] },
+        target_segments:    { bsonType: "array", items: { bsonType: "string" } },
+        target_categories:  { bsonType: "array", items: { bsonType: "string" } },
+        target_design_ids:  { bsonType: "array", items: { bsonType: "string" } },
+        discount_type:      { enum: ["Flat", "Percentage", "Free Shipping", "Gift", "None"] },
+        discount_value:     { bsonType: "double" },
+        coupon_code:        { bsonType: "string" },
+        min_order_value:    { bsonType: "double" },
+        max_discount_cap:   { bsonType: "double" },
+        usage_limit_total:  { bsonType: "int" },
+        usage_limit_per_customer: { bsonType: "int" },
+        times_used:         { bsonType: "int" },
+        start_date:         { bsonType: "date" },
+        end_date:           { bsonType: "date" },
+        budget:             { bsonType: "double" },
+        spent:              { bsonType: "double" },
+        target_revenue:     { bsonType: "double" },
+        actual_revenue:     { bsonType: "double" },
+        status:             { enum: ["Draft", "Scheduled", "Active", "Paused", "Ended", "Cancelled"] },
+        created_by:         { bsonType: "string" },
+        created_at:         { bsonType: "date" },
+        updated_at:         { bsonType: "date" }
+      }
+    }
+  }
+});
+db.campaigns.createIndex({ campaign_id: 1 }, { unique: true });
+db.campaigns.createIndex({ coupon_code: 1 });
+db.campaigns.createIndex({ status: 1, start_date: 1, end_date: 1 });
+
+
+// ============================================================
+// MODULE 13: EXHIBITIONS & EVENTS
+// ============================================================
+
+db.createCollection("exhibitions", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["exhibition_id", "exhibition_name", "city", "start_date", "end_date"],
+      properties: {
+        exhibition_id:     { bsonType: "string" },
+        exhibition_name:   { bsonType: "string" },
+        organizer:         { bsonType: "string" },
+        city:              { bsonType: "string" },
+        state:             { bsonType: "string" },
+        country:           { bsonType: "string" },
+        venue:             { bsonType: "string" },
+        start_date:        { bsonType: "date" },
+        end_date:          { bsonType: "date" },
+        stall_number:      { bsonType: "string" },
+        stall_cost:        { bsonType: "double" },
+        inventory_sent:    {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              sku:      { bsonType: "string" },
+              quantity: { bsonType: "int" }
+            }
+          }
+        },
+        inventory_returned: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              sku:      { bsonType: "string" },
+              quantity: { bsonType: "int" }
+            }
+          }
+        },
+        assigned_staff:    { bsonType: "array", items: { bsonType: "string" } },
+        total_sales:       { bsonType: "double" },
+        orders_generated:  { bsonType: "int" },
+        leads_collected:   { bsonType: "int" },
+        status:            { enum: ["Upcoming", "Active", "Completed", "Cancelled"] },
+        created_at:        { bsonType: "date" }
+      }
+    }
+  }
+});
+db.exhibitions.createIndex({ exhibition_id: 1 }, { unique: true });
+db.exhibitions.createIndex({ start_date: -1 });
+db.exhibitions.createIndex({ status: 1 });
+
+
+// ============================================================
+// MODULE 14: RETURNS & COMPLAINTS
+// ============================================================
+
+db.createCollection("returns", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["return_id", "order_id", "customer_id", "reason", "status"],
+      properties: {
+        return_id:       { bsonType: "string" },
+        order_id:        { bsonType: "string" },
+        customer_id:     { bsonType: "string" },
+        return_items: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              sku:          { bsonType: "string" },
+              quantity:     { bsonType: "int" },
+              reason:       { bsonType: "string" },
+              condition:    { enum: ["Good", "Damaged", "Defective"] }
+            }
+          }
+        },
+        reason:          { enum: ["Defective", "Wrong Item", "Size Issue", "Color Mismatch",
+                                   "Not as Described", "Customer Changed Mind", "Damage in Transit"] },
+        refund_amount:   { bsonType: "double" },
+        refund_method:   { enum: ["Original Payment", "Store Credit", "Bank Transfer", "Cheque"] },
+        refund_status:   { enum: ["Pending", "Approved", "Processed", "Rejected"] },
+        status:          { enum: ["Requested", "Approved", "Received", "Inspected",
+                                   "Refund Initiated", "Closed", "Rejected"] },
+        handled_by:      { bsonType: "string" },
+        return_date:     { bsonType: "date" },
+        created_at:      { bsonType: "date" },
+        updated_at:      { bsonType: "date" }
+      }
+    }
+  }
+});
+db.returns.createIndex({ return_id: 1 }, { unique: true });
+db.returns.createIndex({ order_id: 1 });
+db.returns.createIndex({ customer_id: 1 });
+db.returns.createIndex({ status: 1 });
+
+
+// ============================================================
+// MODULE 15: EXPORT MANAGEMENT
+// ============================================================
+
+db.createCollection("export_orders", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["export_order_id", "customer_id", "destination_country", "status"],
+      properties: {
+        export_order_id:    { bsonType: "string" },
+        customer_id:        { bsonType: "string" },
+        sales_order_id:     { bsonType: "string" },
+        destination_country:{ bsonType: "string" },
+        incoterms:          { enum: ["FOB", "CIF", "EXW", "DDP", "DAP", "CFR"] },
+        currency:           { enum: ["USD", "EUR", "GBP", "AED"] },
+        total_value_fcy:    { bsonType: "double" },
+        total_value_inr:    { bsonType: "double" },
+        shipping_line:      { bsonType: "string" },
+        vessel_name:        { bsonType: "string" },
+        bl_number:          { bsonType: "string" },         // Bill of Lading
+        lc_number:          { bsonType: "string" },         // Letter of Credit
+        lc_expiry_date:     { bsonType: "date" },
+        invoice_number:     { bsonType: "string" },
+        packing_list_ref:   { bsonType: "string" },
+        sbill_number:       { bsonType: "string" },         // Shipping Bill
+        port_of_loading:    { bsonType: "string" },
+        port_of_discharge:  { bsonType: "string" },
+        etd:                { bsonType: "date" },           // Estimated Time of Departure
+        eta:                { bsonType: "date" },           // Estimated Time of Arrival
+        realized_date:      { bsonType: "date" },           // FIRC received
+        dbk_claimed:        { bsonType: "bool" },           // Duty Drawback
+        rodtep_claimed:     { bsonType: "bool" },
+        status:             { enum: ["Draft", "Confirmed", "Packed", "Customs Cleared",
+                                      "Shipped", "Delivered", "Payment Received", "Closed"] },
+        created_at:         { bsonType: "date" },
+        updated_at:         { bsonType: "date" }
+      }
+    }
+  }
+});
+db.export_orders.createIndex({ export_order_id: 1 }, { unique: true });
+db.export_orders.createIndex({ customer_id: 1 });
+db.export_orders.createIndex({ destination_country: 1 });
+db.export_orders.createIndex({ status: 1 });
+
+
+// ============================================================
+// MODULE 16: REPORTS & AUDIT LOGS
+// ============================================================
+
+db.createCollection("audit_logs", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["log_id", "module", "action", "performed_by", "timestamp"],
+      properties: {
+        log_id:         { bsonType: "string" },
+        module:         { bsonType: "string" },     // employees, sales_orders, inventory, etc.
+        record_id:      { bsonType: "string" },
+        action:         { enum: ["CREATE", "UPDATE", "DELETE", "LOGIN", "LOGOUT",
+                                  "APPROVE", "REJECT", "EXPORT"] },
+        old_value:      { bsonType: "object" },
+        new_value:      { bsonType: "object" },
+        performed_by:   { bsonType: "string" },
+        ip_address:     { bsonType: "string" },
+        user_agent:     { bsonType: "string" },
+        timestamp:      { bsonType: "date" }
+      }
+    }
+  }
+});
+db.audit_logs.createIndex({ log_id: 1 }, { unique: true });
+db.audit_logs.createIndex({ module: 1, record_id: 1 });
+db.audit_logs.createIndex({ performed_by: 1 });
+db.audit_logs.createIndex({ timestamp: -1 });
+db.audit_logs.createIndex({ timestamp: 1 }, { expireAfterSeconds: 31536000 }); // TTL: 1 year
+
+
+// ============================================================
+// COLLECTION RELATIONSHIP MAP (Reference Summary)
+// ============================================================
+/*
+  branches          ← referenced by: employees, departments, warehouses, weaving_units
+  departments       ← referenced by: employees
+  employees         ← referenced by: production_orders, qc_inspections, sales_orders, shipments
+  suppliers         ← referenced by: purchase_orders, raw_materials
+  raw_materials     ← referenced by: saree_designs, production_orders, purchase_orders
+  saree_designs     ← referenced by: production_orders, inventory, sales_orders, collections
+  collections       ← referenced by: saree_designs
+  weaving_units     ← referenced by: production_orders, looms
+  looms             ← referenced by: production_orders
+  production_orders ← referenced by: inventory, qc_inspections
+  warehouses        ← referenced by: inventory, stock_movements, shipments
+  inventory         ← referenced by: sales_orders, stock_movements, shipments, exhibitions
+  customers         ← referenced by: sales_orders, payments, returns, export_orders
+  sales_orders      ← referenced by: payments, shipments, returns, export_orders
+  purchase_orders   ← referenced by: payments, stock_movements
+  campaigns         ← referenced by: sales_orders (coupon applied)
+  exhibitions       ← referenced by: inventory (stock sent), sales_orders (channel)
+*/
